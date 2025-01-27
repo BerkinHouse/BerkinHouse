@@ -160,7 +160,7 @@
 
             <button type="submit">🚀 Отправить</button>
         </form>
-        <p class="error-message" id="errorMessage" style="display:none;">⚠️ Пожалуйста, подождите 10 минут перед отправкой новой заявки.</p>
+        <p class="error-message" id="errorMessage" style="display:none;">⚠️ Пожалуйста, подождите 1 минут перед отправкой новой заявки.</p>
     </div>
 
     <!-- Значок Discord (вместо URL изображения, используем локальное изображение) -->
@@ -185,7 +185,7 @@
             const currentTime = new Date().getTime();
 
             // Если с последней заявки прошло меньше 10 минут (600000 миллисекунд), то показываем сообщение об ошибке
-            if (lastSubmitTime && currentTime - lastSubmitTime < 600000) {
+            if (lastSubmitTime && currentTime - lastSubmitTime < 60000) {
                 document.getElementById('errorMessage').style.display = 'block';
                 return;
             }
