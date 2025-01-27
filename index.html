@@ -172,6 +172,11 @@
         const discordIcon = document.getElementById('discordIcon');
         const discordUrl = "https://discord.gg/9AYjY9gY"; // Укажите ваш URL Discord-сервера
 
+        // Проверяем поддержку Fetch API в Firefox
+        function isFetchAvailable() {
+            return window.fetch !== undefined;
+        }
+
         document.getElementById('applicationForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
@@ -208,8 +213,23 @@
             };
 
             try {
-                // Отправка заявки
-                await axios.post(webhookURL, payload);
+                // Проверяем, доступен ли Fetch API в браузере
+                if (isFetchAvailable()) {
+                    const response = await fetch(webhookURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Не удалось отправить заявку');
+                    }
+                } else {
+                    // Используем старый метод (axios) для отправки
+                    await axios.post(webhookURL, payload);
+                }
 
                 // Запоминаем время последней отправки
                 localStorage.setItem('lastSubmitTime', currentTime);
